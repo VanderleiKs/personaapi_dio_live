@@ -1,5 +1,6 @@
 package com.dio.apirest.service;
 
+import com.dio.apirest.dto.MessageResponseDTO;
 import com.dio.apirest.entity.Person;
 import com.dio.apirest.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,14 @@ public class PersonService {
     }
 
     //Save
-    public ResponseEntity<Person> savePerson(Person person){
-        personRepository.save(person);
+
+    public MessageResponseDTO savePerson(Person person){
+       Person personSave = personRepository.save(person);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(person.getId()).toUri();
-        return ResponseEntity.ok("Salvo Com Sucesso!").created(uri).build();
+        return MessageResponseDTO
+                .builder()
+                .message("Save with success, id: " + personSave.getId())
+                .build();
     }
 
     //Update

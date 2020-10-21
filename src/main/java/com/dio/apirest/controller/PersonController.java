@@ -1,9 +1,11 @@
 package com.dio.apirest.controller;
 
+import com.dio.apirest.dto.MessageResponseDTO;
 import com.dio.apirest.entity.Person;
 import com.dio.apirest.service.PersonService;
 import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +15,12 @@ import java.util.List;
 @RequestMapping("/person")
 public class PersonController {
 
+    private final PersonService personService;
+
     @Autowired
-    private PersonService personService;
+    public PersonController(PersonService personService) {
+        this.personService = personService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Person>> getAllPersons(){
@@ -22,8 +28,9 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> savePerson(@RequestBody Person person){
-        return personService.savePerson(person);
+    @ResponseStatus(HttpStatus.CREATED)
+    public MessageResponseDTO savePerson(@RequestBody Person person){
+       return personService.savePerson(person);
     }
 
     @PutMapping("/{id}")
