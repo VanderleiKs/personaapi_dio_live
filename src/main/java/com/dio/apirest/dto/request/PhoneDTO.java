@@ -1,10 +1,7 @@
 package com.dio.apirest.dto.request;
 
 import com.dio.apirest.entity.enuns.PhoneType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,6 +20,6 @@ public class PhoneDTO {
     private PhoneType type;
 
     @NotEmpty
-    @Size(min = 9, max = 14)
+    @Size(min = 9, max = 14, message = "Number phone invalid")
     private String number;
 }

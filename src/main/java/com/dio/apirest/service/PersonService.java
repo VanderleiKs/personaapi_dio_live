@@ -1,6 +1,6 @@
 package com.dio.apirest.service;
 
-import com.dio.apirest.dto.MessageResponseDTO;
+import com.dio.apirest.dto.response.MessageResponseDTO;
 import com.dio.apirest.dto.request.PersonDTO;
 import com.dio.apirest.entity.Person;
 import com.dio.apirest.exception.PersonNotFoundException;
@@ -40,36 +40,42 @@ public class PersonService {
     }
 
     //Save
-    public MessageResponseDTO savePerson(PersonDTO personDTO){
-        Person p = personMapper.toModel(personDTO);
-        Person personSave = personRepository.save(p);
-        return MessageResponseDTO
-                .builder()
-                .message("Save with success, id: " + personSave.getId())
-                .build();
+    public ResponseEntity<MessageResponseDTO> savePerson(PersonDTO personDTO){
+            Person personToSave = personMapper.toModel(personDTO);
+            Person testCpf = personRepository.findByCPF(personToSave.getCpf());
+            if(testCpf != null){
+                return responseMessage("CPF already registered");
+            }
+            Person personSave = personRepository.save(personToSave);
+            return responseMessage("Save with success, id: " + personSave.getId());
     }
 
     //Update
-    public ResponseEntity<String> updatePerson(Person person, Long id){
+    public ResponseEntity<MessageResponseDTO> updatePerson(PersonDTO person, Long id){
         Person personSave = verifyIfExist(id);
         personSave.setFirstName(person.getFirstName());
         personSave.setLastName(person.getLastName());
         personRepository.save(personSave);
-        return ResponseEntity.ok("Update with success!");
+        return responseMessage("Update with success!");
     }
 
     //Delete
     public ResponseEntity<MessageResponseDTO> deletePerson(Long id){
-        personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException("Person not found"));
+        verifyIfExist(id);
         personRepository.deleteById(id);
-        return ResponseEntity.ok(MessageResponseDTO
-                .builder()
-                .message("Excluded com Success!")
-                .build());
+        return responseMessage("Excluded com Success!");
     }
 
     //find id and verify if exist
     private Person verifyIfExist(Long id) {
         return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException("Person not found"));
+    }
+
+    //Response Method
+    private ResponseEntity<MessageResponseDTO> responseMessage(String s) {
+        return ResponseEntity.ok(MessageResponseDTO
+                .builder()
+                .message(s)
+                .build());
     }
 }

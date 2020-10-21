@@ -1,4 +1,4 @@
-package com.dio.apirest.dto;
+package com.dio.apirest.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
