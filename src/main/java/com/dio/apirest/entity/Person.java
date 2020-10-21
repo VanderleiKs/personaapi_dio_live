@@ -1,6 +1,6 @@
-package entity;
+package com.dio.apirest.entity;
 
-import io.micrometer.core.instrument.Meter;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,11 +15,18 @@ import java.util.List;
 public class Person {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false, unique = true)
     private String cpf;
+
     private LocalDate birthDate;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})

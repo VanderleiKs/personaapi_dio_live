@@ -1,4 +1,4 @@
-package entity;
+package com.dio.apirest.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,4 +22,5 @@ public class Phone {
     private PhoneType type;
     @Column(nullable = false)
     private String number;
+
 }
