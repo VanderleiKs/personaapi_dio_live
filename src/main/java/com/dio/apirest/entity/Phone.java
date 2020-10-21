@@ -1,5 +1,6 @@
 package com.dio.apirest.entity;
 
+import com.dio.apirest.entity.enuns.PhoneType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,12 +1,11 @@
 package com.dio.apirest.dto.request;
 
-import com.dio.apirest.entity.PhoneType;
+import com.dio.apirest.entity.enuns.PhoneType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotEmpty;

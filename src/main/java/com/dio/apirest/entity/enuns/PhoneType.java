@@ -1,4 +1,4 @@
-package com.dio.apirest.entity;
+package com.dio.apirest.entity.enuns;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

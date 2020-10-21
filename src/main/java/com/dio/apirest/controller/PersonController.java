@@ -4,7 +4,6 @@ import com.dio.apirest.dto.MessageResponseDTO;
 import com.dio.apirest.dto.request.PersonDTO;
 import com.dio.apirest.entity.Person;
 import com.dio.apirest.service.PersonService;
-import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +28,11 @@ public class PersonController {
         return personService.getAllPerson();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PersonDTO> getById(@PathVariable Long id){
+        return personService.getById(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public MessageResponseDTO savePerson(@RequestBody @Valid PersonDTO personDTO){
@@ -41,12 +45,8 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePerson(@PathVariable Long id){
+    public ResponseEntity<MessageResponseDTO> deletePerson(@PathVariable Long id){
         return personService.deletePerson(id);
     }
 
 }
-
-
-
-
