@@ -1,6 +1,7 @@
 package com.dio.apirest.controller;
 
 import com.dio.apirest.dto.MessageResponseDTO;
+import com.dio.apirest.dto.request.PersonDTO;
 import com.dio.apirest.entity.Person;
 import com.dio.apirest.service.PersonService;
 import org.apache.catalina.LifecycleState;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,8 +31,8 @@ public class PersonController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponseDTO savePerson(@RequestBody Person person){
-       return personService.savePerson(person);
+    public MessageResponseDTO savePerson(@RequestBody @Valid PersonDTO personDTO){
+       return personService.savePerson(personDTO);
     }
 
     @PutMapping("/{id}")

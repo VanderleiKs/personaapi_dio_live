@@ -1,7 +1,9 @@
 package com.dio.apirest.service;
 
 import com.dio.apirest.dto.MessageResponseDTO;
+import com.dio.apirest.dto.request.PersonDTO;
 import com.dio.apirest.entity.Person;
+import com.dio.apirest.mapper.PersonMapper;
 import com.dio.apirest.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ public class PersonService {
     @Autowired
     PersonRepository personRepository;
 
+    private final PersonMapper personMapper = PersonMapper.INSTANCE;
+
     //GetAll
     public ResponseEntity<List<Person>> getAllPerson(){
         return ResponseEntity.ok().body(personRepository.findAll());
@@ -26,9 +30,9 @@ public class PersonService {
 
     //Save
 
-    public MessageResponseDTO savePerson(Person person){
-       Person personSave = personRepository.save(person);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(person.getId()).toUri();
+    public MessageResponseDTO savePerson(PersonDTO personDTO){
+        Person p = personMapper.toModel(personDTO);
+        Person personSave = personRepository.save(p);
         return MessageResponseDTO
                 .builder()
                 .message("Save with success, id: " + personSave.getId())
