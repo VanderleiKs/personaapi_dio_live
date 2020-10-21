@@ -1,8 +1,7 @@
 package com.dio.apirest.controller;
 
-import com.dio.apirest.dto.MessageResponseDTO;
+import com.dio.apirest.dto.response.MessageResponseDTO;
 import com.dio.apirest.dto.request.PersonDTO;
-import com.dio.apirest.entity.Person;
 import com.dio.apirest.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,12 +34,12 @@ public class PersonController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponseDTO savePerson(@RequestBody @Valid PersonDTO personDTO){
+    public ResponseEntity<MessageResponseDTO> savePerson(@RequestBody @Valid PersonDTO personDTO){
        return personService.savePerson(personDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updatePerson(@PathVariable Long id, @RequestBody Person person){
+    public ResponseEntity<MessageResponseDTO> updatePerson(@PathVariable @Valid Long id, @RequestBody PersonDTO person){
         return personService.updatePerson(person, id);
     }
 

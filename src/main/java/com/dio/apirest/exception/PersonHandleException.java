@@ -7,19 +7,36 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@RestControllerAdvice
 @ControllerAdvice
 public class PersonHandleException  extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(PersonNotFoundException.class)
-    public ResponseEntity<Object> PersonException(PersonNotFoundException person, WebRequest webRequest){
-        var msg = new msg();
-        msg.setMessage(person.getMessage());
-        return handleExceptionInternal(person, msg, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
+    @ExceptionHandler({PersonNotFoundException.class, Exception.class, RuntimeException.class, Throwable.class})
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+        List<msg> message = new ArrayList<>();
+        if (ex instanceof MethodArgumentNotValidException) {
+            List<ObjectError> list = ((MethodArgumentNotValidException) ex).getBindingResult().getAllErrors();
+            for (ObjectError err : list) {
+                message.add(new msg(err.getDefaultMessage()));
+            }
+            return new ResponseEntity<Object>(message, HttpStatus.BAD_REQUEST);
+        } else {
+            var msg = new msg();
+            msg.setMessage(ex.getMessage());
+            return handleExceptionInternal(ex, msg, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
+        }
     }
 }
 
