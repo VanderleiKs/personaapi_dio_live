@@ -14,6 +14,7 @@ import org.springframework.web.util.UriBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonService {
@@ -24,8 +25,10 @@ public class PersonService {
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
     //GetAll
-    public ResponseEntity<List<Person>> getAllPerson(){
-        return ResponseEntity.ok().body(personRepository.findAll());
+    public ResponseEntity<List<PersonDTO>> getAllPerson(){
+        return ResponseEntity.ok().body(personRepository.findAll().stream()
+                .map(personMapper::toDTO)
+                .collect(Collectors.toList()));
     }
 
     //Save
