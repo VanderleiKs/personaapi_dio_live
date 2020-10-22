@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class PersonNotFoundException extends Exception{
 
     public PersonNotFoundException(String msg){
-       super(msg);
+       super("mendsagem " + msg);
     }
 }

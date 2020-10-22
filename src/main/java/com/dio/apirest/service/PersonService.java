@@ -7,6 +7,7 @@ import com.dio.apirest.exception.PersonNotFoundException;
 import com.dio.apirest.mapper.PersonMapper;
 import com.dio.apirest.repository.PersonRepository;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -63,7 +64,8 @@ public class PersonService {
     }
 
     //find id and verify if exist
-    private Person verifyIfExist(Long id) throws PersonNotFoundException {
+    @SneakyThrows
+    private Person verifyIfExist(Long id) {
       return personRepository.findById(id)
               .orElseThrow(() -> new PersonNotFoundException("Person Not Found with ID: " + id));
     }

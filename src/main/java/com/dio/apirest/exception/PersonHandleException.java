@@ -35,7 +35,7 @@ public class PersonHandleException  extends ResponseEntityExceptionHandler {
         }
         else {
             var msg = new msg();
-            msg.setMessage(ex.getMessage());
+            msg.setMessage(ex.getLocalizedMessage());
             return new ResponseEntity<>(msg, HttpStatus.NOT_FOUND);
         }
     }
