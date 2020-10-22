@@ -3,6 +3,7 @@ package com.dio.apirest.controller;
 import com.dio.apirest.dto.response.MessageResponseDTO;
 import com.dio.apirest.dto.request.PersonDTO;
 import com.dio.apirest.service.PersonService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/person")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonController {
 
     private final PersonService personService;
-
-    @Autowired
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
 
     @GetMapping
     public ResponseEntity<List<PersonDTO>> getAllPersons(){
