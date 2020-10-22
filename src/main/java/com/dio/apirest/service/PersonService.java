@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,7 +66,7 @@ public class PersonService {
     //find id and verify if exist
     private Person verifyIfExist(Long id) {
         return personRepository.findById(id)
-                .orElseThrow(() -> new PersonNotFoundException("Person not found"));
+                .orElseThrow(() -> new PersonNotFoundException("Person id " + id + " not found"));
     }
 
     //Response Method

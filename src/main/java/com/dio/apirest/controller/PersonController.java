@@ -1,7 +1,7 @@
 package com.dio.apirest.controller;
 
-import com.dio.apirest.dto.response.MessageResponseDTO;
 import com.dio.apirest.dto.request.PersonDTO;
+import com.dio.apirest.dto.response.MessageResponseDTO;
 import com.dio.apirest.exception.PersonNotFoundException;
 import com.dio.apirest.service.PersonService;
 import lombok.AllArgsConstructor;
@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/person")
@@ -29,13 +28,13 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PersonDTO> getById(@PathVariable Long id){
-        try {
             return personService.getById(id);
-        }
-        catch (PersonNotFoundException ex){
-            throw new PersonNotFoundException("Erro na digitacao");
-        }
     }
+
+//    @ExceptionHandler(NoSuchElementException.class)
+//    public String erro(){
+//        return "Erro na sua requisicao";
+//    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -44,7 +43,7 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MessageResponseDTO> updatePerson(@PathVariable @Valid Long id, @RequestBody PersonDTO person) throws PersonNotFoundException {
+    public ResponseEntity<MessageResponseDTO> updatePerson(@PathVariable @Valid Long id, @RequestBody PersonDTO person){
         return personService.updatePerson(person, id);
     }
 
