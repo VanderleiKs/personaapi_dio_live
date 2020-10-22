@@ -26,7 +26,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PersonDTO> getById(@PathVariable Long id) throws PersonNotFoundException {
+    public ResponseEntity<PersonDTO> getById(@PathVariable @Valid Long id){
         return personService.getById(id);
     }
 
@@ -42,7 +42,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponseDTO> deletePerson(@PathVariable Long id) throws PersonNotFoundException {
+    public ResponseEntity<MessageResponseDTO> deletePerson(@PathVariable Long id)  {
         return personService.deletePerson(id);
     }
 

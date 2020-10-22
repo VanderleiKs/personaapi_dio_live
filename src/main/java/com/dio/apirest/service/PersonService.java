@@ -1,13 +1,12 @@
 package com.dio.apirest.service;
 
-import com.dio.apirest.dto.response.MessageResponseDTO;
 import com.dio.apirest.dto.request.PersonDTO;
+import com.dio.apirest.dto.response.MessageResponseDTO;
 import com.dio.apirest.entity.Person;
 import com.dio.apirest.exception.PersonNotFoundException;
 import com.dio.apirest.mapper.PersonMapper;
 import com.dio.apirest.repository.PersonRepository;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -48,7 +47,7 @@ public class PersonService {
     }
 
     //Update
-    public ResponseEntity<MessageResponseDTO> updatePerson(PersonDTO person, Long id) throws PersonNotFoundException {
+    public ResponseEntity<MessageResponseDTO> updatePerson(PersonDTO person, Long id){
         Person personSave = verifyIfExist(id);
         personSave.setFirstName(person.getFirstName());
         personSave.setLastName(person.getLastName());
@@ -57,17 +56,16 @@ public class PersonService {
     }
 
     //Delete
-    public ResponseEntity<MessageResponseDTO> deletePerson(Long id) throws PersonNotFoundException {
+    public ResponseEntity<MessageResponseDTO> deletePerson(Long id) {
         verifyIfExist(id);
         personRepository.deleteById(id);
         return responseMessage("Excluded with Success!");
     }
 
     //find id and verify if exist
-    @SneakyThrows
     private Person verifyIfExist(Long id) {
-      return personRepository.findById(id)
-              .orElseThrow(() -> new PersonNotFoundException("Person Not Found with ID: " + id));
+        return personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException("Person not found"));
     }
 
     //Response Method
