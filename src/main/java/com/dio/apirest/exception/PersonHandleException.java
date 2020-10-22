@@ -7,18 +7,18 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RestControllerAdvice
 @ControllerAdvice
 public class PersonHandleException  extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})
+    @ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class, ResponseStatusException.class})
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
         if (ex instanceof MethodArgumentNotValidException) {

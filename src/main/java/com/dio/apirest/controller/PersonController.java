@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -26,8 +28,13 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PersonDTO> getById(@PathVariable @Valid Long id){
-        return personService.getById(id);
+    public ResponseEntity<PersonDTO> getById(@PathVariable Long id){
+        try {
+            return personService.getById(id);
+        }
+        catch (PersonNotFoundException ex){
+            throw new PersonNotFoundException("Erro na digitacao");
+        }
     }
 
     @PostMapping
