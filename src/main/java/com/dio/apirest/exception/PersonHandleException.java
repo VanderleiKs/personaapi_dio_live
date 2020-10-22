@@ -31,11 +31,12 @@ public class PersonHandleException  extends ResponseEntityExceptionHandler {
             for (ObjectError err : list) {
                 message.add(new msg(err.getDefaultMessage()));
             }
-            return new ResponseEntity<Object>(message, HttpStatus.BAD_REQUEST);
-        } else {
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        }
+        else {
             var msg = new msg();
             msg.setMessage(ex.getMessage());
-            return handleExceptionInternal(ex, msg, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
+            return new ResponseEntity<>(msg, HttpStatus.NOT_FOUND);
         }
     }
 }

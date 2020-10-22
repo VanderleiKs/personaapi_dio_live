@@ -25,7 +25,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PersonDTO> getById(@PathVariable Long id){
+    public ResponseEntity<PersonDTO> getById(@PathVariable Long id) {
         return personService.getById(id);
     }
 
@@ -36,12 +36,12 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MessageResponseDTO> updatePerson(@PathVariable @Valid Long id, @RequestBody PersonDTO person){
+    public ResponseEntity<MessageResponseDTO> updatePerson(@PathVariable @Valid Long id, @RequestBody PersonDTO person) {
         return personService.updatePerson(person, id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponseDTO> deletePerson(@PathVariable Long id){
+    public ResponseEntity<MessageResponseDTO> deletePerson(@PathVariable Long id) {
         return personService.deletePerson(id);
     }
 
