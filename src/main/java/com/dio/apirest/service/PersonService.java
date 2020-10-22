@@ -30,7 +30,7 @@ public class PersonService {
     }
 
     //GetById
-    public ResponseEntity<PersonDTO> getById(Long id) {
+    public ResponseEntity<PersonDTO> getById(Long id) throws PersonNotFoundException {
         Person person = verifyIfExist(id);
         return ResponseEntity.ok(personMapper.toDTO(person));
     }
@@ -47,7 +47,7 @@ public class PersonService {
     }
 
     //Update
-    public ResponseEntity<MessageResponseDTO> updatePerson(PersonDTO person, Long id) {
+    public ResponseEntity<MessageResponseDTO> updatePerson(PersonDTO person, Long id) throws PersonNotFoundException {
         Person personSave = verifyIfExist(id);
         personSave.setFirstName(person.getFirstName());
         personSave.setLastName(person.getLastName());
@@ -56,14 +56,14 @@ public class PersonService {
     }
 
     //Delete
-    public ResponseEntity<MessageResponseDTO> deletePerson(Long id)  {
+    public ResponseEntity<MessageResponseDTO> deletePerson(Long id) throws PersonNotFoundException {
         verifyIfExist(id);
         personRepository.deleteById(id);
         return responseMessage("Excluded with Success!");
     }
 
     //find id and verify if exist
-    private Person verifyIfExist(Long id) {
+    private Person verifyIfExist(Long id) throws PersonNotFoundException {
       return personRepository.findById(id)
               .orElseThrow(() -> new PersonNotFoundException("Person Not Found with ID: " + id));
     }

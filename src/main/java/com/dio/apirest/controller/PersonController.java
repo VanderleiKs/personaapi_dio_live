@@ -2,6 +2,7 @@ package com.dio.apirest.controller;
 
 import com.dio.apirest.dto.response.MessageResponseDTO;
 import com.dio.apirest.dto.request.PersonDTO;
+import com.dio.apirest.exception.PersonNotFoundException;
 import com.dio.apirest.service.PersonService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PersonDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<PersonDTO> getById(@PathVariable Long id) throws PersonNotFoundException {
         return personService.getById(id);
     }
 
@@ -36,12 +37,12 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MessageResponseDTO> updatePerson(@PathVariable @Valid Long id, @RequestBody PersonDTO person) {
+    public ResponseEntity<MessageResponseDTO> updatePerson(@PathVariable @Valid Long id, @RequestBody PersonDTO person) throws PersonNotFoundException {
         return personService.updatePerson(person, id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponseDTO> deletePerson(@PathVariable Long id) {
+    public ResponseEntity<MessageResponseDTO> deletePerson(@PathVariable Long id) throws PersonNotFoundException {
         return personService.deletePerson(id);
     }
 
